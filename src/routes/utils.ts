@@ -1,4 +1,4 @@
-import { useHttpsLb } from "src/config/index";
+import { useHttpsLb } from "../config/index";
 import { Request } from 'express';
 
 export function getBaseUrl(req: Request) {
