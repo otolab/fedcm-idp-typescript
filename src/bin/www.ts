@@ -13,6 +13,7 @@ import * as fs from 'fs';
 import * as http from 'http';
 
 import { IDPMetadataConfig } from '../config/idp_metadata.interface';
+import { useHttpsLb } from '../config/index';
 
 // Check if the HEROKU_APP_NAME environment variable is set
 var isHeroku = !!process.env.HEROKU_APP_NAME
@@ -41,6 +42,10 @@ if (isHeroku) {
 } else if (isLocalhost) {
   // For localhost, also create an HTTP server
   server = http.createServer(app);
+  // use https LB, like GCP CloudRun
+  if (useHttpsLb) {
+    app.set('trust proxy', true);
+  }
 } else {
 
   const idpMetadataConfig: IDPMetadataConfig = require('../config/idp_metadata.json');
