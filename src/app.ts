@@ -54,7 +54,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       // Set to secure in case we are neither running on localhost nor on Heroku
-      secure: useHttpsLb ? true : (process.env.LOCALHOST ? false : (process.env.HEROKU_APP_NAME ? false : true))
+      secure: process.env.LOCALHOST ? false : (process.env.HEROKU_APP_NAME ? false : true)
+      // secure: useHttpsLb ? true : (process.env.LOCALHOST ? false : (process.env.HEROKU_APP_NAME ? false : true))
     }
   })
 )
