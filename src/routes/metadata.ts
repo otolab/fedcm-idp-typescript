@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { checkSecFetchDest } from '../services/util';
+import { getBaseUrl } from './utils';
 
 export const metaDataRouter = Router();
 
@@ -14,8 +15,7 @@ metaDataRouter.get('/.well-known/web-identity', checkSecFetchDest, (req: Request
 
     // Determine origin based on the host (hostname incl. port) and scheme
     // Note this is only needed to support multiple IDPs in parallel (otherwise could be set from the config file)
-    const host = req.get('host');
-    const baseUrl = `${req.protocol}://${host}`;
+    const baseUrl = getBaseUrl(req);
 
     if (req.supportedIDPOrigins.includes(hostname)) {
         res.json({ provider_urls: [`${baseUrl}/fedcm.json`] });

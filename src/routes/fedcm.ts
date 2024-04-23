@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Router, Request, Response } from 'express';
 import { checkSecFetchDest } from '../services/util';
 import crypto from 'crypto';
+import { getBaseUrl } from './utils';
 
 export const fedcmRouter = Router();
 
@@ -271,8 +272,7 @@ fedcmRouter.get('/embedded', (req: Request, res: Response) => {
 
   // Derive the base URL from the host (hostname incl. port) and scheme
   // Note this is only needed to support multiple IDPs in parallel
-  const host = req.get('host');
-  const origin = `${req.protocol}://${host}`;
+  const origin = getBaseUrl(req);
 
   const client_id = req.query.clientId as string;
   const iFrame_referer = req.get('Referer')?.replace(/\/$/, '') as string;

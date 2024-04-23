@@ -37,6 +37,7 @@ import type {
   AuthenticationResponseJSON,
   AuthenticatorDevice,
 } from '@simplewebauthn/typescript-types';
+import { getBaseUrl } from './utils';
 
 // WebAuthn routes
 
@@ -158,8 +159,7 @@ authRouter.post('/verify-registration', async (req, res) => {
 
   // Derive the base URL from the host (hostname incl. port) and scheme
   // Note this is only needed to support multiple IDPs in parallel
-  const host = req.get('host');
-  const expectedOrigin = `${req.protocol}://${host}`;
+  const expectedOrigin = getBaseUrl(req);
 
   const body: RegistrationResponseJSON = req.body;
 
@@ -307,8 +307,7 @@ authRouter.post('/verify-authentication', async (req, res) => {
 
   // Derive the base URL from the host (hostname incl. port) and scheme
   // Note this is only needed to support multiple IDPs in parallel
-  const host = req.get('host');
-  const expectedOrigin = `${req.protocol}://${host}`;
+  const expectedOrigin = getBaseUrl(req);
 
   let user: User | undefined;
 

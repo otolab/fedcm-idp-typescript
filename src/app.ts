@@ -22,6 +22,7 @@ import { authRouter } from './routes/auth_router';
 
 // IDP Metadata
 import { IDPMetadata, IDPMetadataConfig } from './config/idp_metadata.interface';
+import { getBaseUrl } from './routes/utils';
 
 const app = express()
 
@@ -70,8 +71,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
   // Determine origin based on the host (hostname incl. port) and scheme
   // Note this is only needed to support multiple IDPs in parallel (otherwise could be set from the config file)
-  const host = req.get('host');
-  const baseUrl = `${req.protocol}://${host}`;
+  const baseUrl = getBaseUrl(req);
 
   const metadata = (SupportedIDPMetadata as IDPMetadataConfig)[hostname];
 
