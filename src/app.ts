@@ -23,6 +23,7 @@ import { authRouter } from './routes/auth_router';
 // IDP Metadata
 import { IDPMetadata, IDPMetadataConfig } from './config/idp_metadata.interface';
 import { getBaseUrl } from './routes/utils';
+import { useHttpsLb } from './config/index';
 
 const app = express()
 
@@ -53,7 +54,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       // Set to secure in case we are neither running on localhost nor on Heroku
-      secure: process.env.LOCALHOST ? false : (process.env.HEROKU_APP_NAME ? false : true)
+      secure: useHttpsLb ? true : process.env.LOCALHOST ? false : (process.env.HEROKU_APP_NAME ? false : true)
     }
   })
 )
